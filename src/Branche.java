@@ -1,9 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.swing.Icon;
 
 public class Branche extends Noeud {
 
     List<IComponent> _enfants = new ArrayList<IComponent>();
+
+    public Branche(int nombre, String texte, boolean bool)
+    {
+        this.nombre = nombre;
+        this.texte = texte;
+        this.bool = bool;
+    }
 
     public void ajouter(IComponent enfant)
     {
@@ -17,7 +27,51 @@ public class Branche extends Noeud {
 
     public void genererArbreAleatoire(int nombre)
     {
-        
+        IComponent component;
+        int nbAleatoire = 10;
+        while(nombre > 0)
+        {
+            nombre--;
+            nbAleatoire = new Random().nextInt(2);
+            if(nbAleatoire == 0)
+            {
+                Branche b = new Branche(10 - nombre, "branche: " + (10 -nombre), true);
+                nombre = b.genererBranche(nombre);
+                component = b;
+            }
+            else
+            {
+                component = new Feuille(10 - nombre, "Feuille: " + (10 -nombre), false);
+            }
+            _enfants.add(component);
+        }
+    }
+
+    private int genererBranche(int nombre)
+    {
+        IComponent component;
+        int nbAleatoire = 10;
+        while(nombre > 0)
+        {
+            nombre--;
+            nbAleatoire = new Random().nextInt(3);
+            if(nbAleatoire == 0)
+            {
+                Branche b = new Branche(10 - nombre, "branche: " + (10 -nombre), true);
+                nombre = b.genererBranche(nombre);
+                component = b;
+            }
+            else if(nbAleatoire == 1)
+            {
+                component = new Feuille(10 - nombre, "Feuille: " + (10 -nombre), false);
+            }
+            else
+            {
+                return nombre;
+            }
+            _enfants.add(component);
+        }
+        return nombre;
     }
 
     @Override
@@ -28,14 +82,9 @@ public class Branche extends Noeud {
         }
     }
 
-    //Ici, est ce que c'est bon de faire le depth first comme ça ? dans le code de la branche, je sais que c'est la responsabilité du visiteur,
-    //Mais c'est une fonction du visiteur
     @Override
-    public void accepter(IVisiteur v) {
-        v.visiterBranche(this);
-        for (IComponent c : _enfants) {
-            c.accepter(v);
-        }
+    public String accepter(IVisiteur v) {
+        return v.visiterBranche(this);
     }
     
 }

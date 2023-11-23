@@ -1,5 +1,10 @@
 public class App {
     public static void main(String[] args) throws Exception {
+        Branche racine = new Branche(0, "racine", true);
+        racine.genererArbreAleatoire(10);
+        VisiteurSerialiserTexte serialiserTexte = new VisiteurSerialiserTexte("index.html");
+        serialiserTexte.serialiser(racine);
+        
         //Construction d'un arbre aléatoire d'une table x
         //Constrction d'un composite permettant de stocker un nombre, un booléen et un string (en avoir une seule donnée d'un type spécifique)
         //Les branches peuvent avoir 0, 1 ou + de feuilles/branches

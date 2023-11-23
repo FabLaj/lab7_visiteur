@@ -19,7 +19,8 @@ public class VisiteurSerialiserTexte implements IVisiteur{
         try {
             _writer = new FileWriter(_fichier);
             _writer.write("<html>\n<body>");
-            b.accepter(this);
+            _writer.write(b.accepter(this));
+            _writer.write("</body></html>");
             _writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,12 +29,17 @@ public class VisiteurSerialiserTexte implements IVisiteur{
 
     @Override
     public String visiterFeuille(Feuille f) {
-        return "";
+        return "<li>Texte: " + f.texte + "  Nombre: " + f.nombre + "    V/F: " + f.bool + "</li>";
     }
 
     @Override
     public String visiterBranche(Branche b) {
         String texte = "<li><span>Texte: " + b.texte + "  Nombre: " + b.nombre + "  V/F: " + b.bool + "</span>\n<ul>\n";
+        for (IComponent c : b._enfants) {
+            texte += c.accepter(this);
+        }
+        texte += "</ul></li>";
+        return texte;
     }  
     
 }
