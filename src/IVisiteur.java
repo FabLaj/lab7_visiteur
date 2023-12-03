@@ -1,6 +1,9 @@
 public interface IVisiteur {
 
-    public String visiterFeuille(Feuille f);
-    public String visiterBranche(Branche b);
+    public String visiterTexte(FeuilleTexte f);
+
+    public String visiterNombre(FeuilleNombre f);
+
+    public String visiterBool(FeuilleBool f);
     
 }

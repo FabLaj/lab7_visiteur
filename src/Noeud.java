@@ -1,6 +1,5 @@
-public abstract class Noeud implements IComponent
-{
-    public int nombre;
-    public boolean bool;
-    public String texte;
+import java.util.List;
+
+public abstract class Noeud implements IComponent {
+    public List<IComponent> _enfants;
 }

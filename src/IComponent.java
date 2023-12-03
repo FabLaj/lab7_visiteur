@@ -1,4 +1,5 @@
 public interface IComponent {
-    public void executer();
+    public void ajouter(IComponent enfant);
+    public void supprimer(IComponent enfant);
     public String accepter(IVisiteur v);
 }

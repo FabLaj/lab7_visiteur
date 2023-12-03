@@ -1,16 +1,73 @@
+import java.nio.charset.Charset;
+import java.util.Random;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        Branche racine = new Branche(0, "racine", true);
-        racine.genererArbreAleatoire(10);
+        IComponent racine = genererArbreAleatoire(20);
         VisiteurSerialiserTexte serialiserTexte = new VisiteurSerialiserTexte("index.html");
         serialiserTexte.serialiser(racine);
-        
-        //Construction d'un arbre aléatoire d'une table x
-        //Constrction d'un composite permettant de stocker un nombre, un booléen et un string (en avoir une seule donnée d'un type spécifique)
-        //Les branches peuvent avoir 0, 1 ou + de feuilles/branches
-        //Installer un visiteur qui peut faire un depth first
-        //Installer un visiteur qui peut faire un breadth first
-        //Installer un visiteur qui va sérialiser vers un fichier texte avec un nom (configurable à l'initialisation)
-        //Installer une fabrique qui permet de désérialiser l'arbre à partir d'un fichier
+        // FabriqueArbre fabrique = new FabriqueArbre();
+        // IComponent nouvelArbre = fabrique.creerArbre("index.html");
+        // VisiteurSerialiserTexte serialiserTexte2 = new VisiteurSerialiserTexte("index2.html");
+        // serialiserTexte2.serialiser(nouvelArbre);
+    }
+
+    public static IComponent genererArbreAleatoire(int taille)
+    {
+        IComponent racine = new FeuilleNombre(0);
+        while(taille > 0)
+        {
+            taille = generer(taille, racine);
+        }
+        return racine;
+    }
+
+    public static int generer(int taille, IComponent racine)
+    {
+        while(taille > 0)
+        {
+            IComponent component = null;
+            int nbAleatoire = new Random().nextInt(5);
+            switch (nbAleatoire) {
+                case 0:
+                    component = new FeuilleBool(new Random().nextBoolean());
+                    break;
+                case 1:
+                    component = new FeuilleNombre(new Random().nextInt(10000));
+                    break;
+                case 2:
+                    String chars = "abcdefghijqlmnopqrstuvwxyz";
+                    StringBuilder sb = new StringBuilder();
+                    for(int i=0; i < 7; i++)
+                    {
+                        sb.append(chars.charAt(new Random().nextInt(chars.length())));
+                    }
+                    component = new FeuilleTexte(sb.toString());
+                    break;
+                default:
+                    return taille;
+            }
+            racine.ajouter(component);
+            taille--;
+        }
+        return 0;
     }
 }
+
+
+//Enlever la branche
+
+//Supprimer affichage HTML (C'est de la grosse merde)
+
+//loader dans un tableau, avec l'id de son parent
+
+
+
+//noeud n 42 - 1
+//noeud b v - 0
+
+//ou n 42 (tab)  b V
+
+//N 42 2
+//B v 0
+//S bonjouer 0
